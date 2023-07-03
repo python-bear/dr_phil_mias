@@ -32,7 +32,7 @@
             var ballSpeed = 7;
 
             const leftPaddle = {
-              // start in the middle of the game on the left side
+              // start in the middle of the rightwaves_game on the left side
               x: grid * 2,
               y: canvas.height / 2 - paddleHeight / 2,
               width: grid,
@@ -42,7 +42,7 @@
               dy: 0
             };
             const rightPaddle = {
-              // start in the middle of the game on the right side
+              // start in the middle of the rightwaves_game on the right side
               x: canvas.width - grid * 3,
               y: canvas.height / 2 - paddleHeight / 2,
               width: grid,
@@ -52,7 +52,7 @@
               dy: 0
             };
             const ball = {
-              // start in the middle of the game
+              // start in the middle of the rightwaves_game
               x: canvas.width / 2,
               y: canvas.height / 2,
               width: grid,
@@ -75,7 +75,7 @@
                      obj1.y + obj1.height > obj2.y;
             }
 
-            // game loop
+            // rightwaves_game loop
             function loop() {
               requestAnimationFrame(loop);
               context.clearRect(0,0,canvas.width,canvas.height);
@@ -206,7 +206,7 @@
               }
             });
 
-            // start the game
+            // start the rightwaves_game
             requestAnimationFrame(loop);
         </script>
     </body>

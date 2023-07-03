@@ -88,7 +88,7 @@ function isValidMove(matrix, cellRow, cellCol) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
       if (matrix[row][col] && (
-          // outside the game bounds
+          // outside the rightwaves_game bounds
           cellCol + col < 0 ||
           cellCol + col >= playfield[0].length ||
           cellRow + row >= playfield.length ||
@@ -109,7 +109,7 @@ function placeTetromino() {
     for (let col = 0; col < tetromino.matrix[row].length; col++) {
       if (tetromino.matrix[row][col]) {
 
-        // game over if piece has any part offscreen
+        // rightwaves_game over if piece has any part offscreen
         if (tetromino.row + row < 0) {
           return showGameOver();
         }
@@ -138,7 +138,7 @@ function placeTetromino() {
   tetromino = getNextTetromino();
 }
 
-// show the game over screen
+// show the rightwaves_game over screen
 function showGameOver() {
   cancelAnimationFrame(rAF);
   gameOver = true;
@@ -160,7 +160,7 @@ const context = canvas.getContext('2d');
 const grid = 32;
 const tetrominoSequence = [];
 
-// keep track of what is in every cell of the game using a 2d array
+// keep track of what is in every cell of the rightwaves_game using a 2d array
 // tetris playfield is 10x20, with a few rows offscreen
 const playfield = [];
 
@@ -229,7 +229,7 @@ let tetromino = getNextTetromino();
 let rAF = null;  // keep track of the animation frame so we can cancel it
 let gameOver = false;
 
-// game loop
+// rightwaves_game loop
 function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
@@ -314,7 +314,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// start the game
+// start the rightwaves_game
 rAF = requestAnimationFrame(loop);
 </script>
 </body>

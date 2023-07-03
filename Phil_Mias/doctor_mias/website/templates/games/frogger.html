@@ -207,12 +207,12 @@ for (let i = 0; i < patterns.length; i++) {
   }
 }
 
-// game loop
+// rightwaves_game loop
 function loop() {
   requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
 
-  // draw the game background
+  // draw the rightwaves_game background
   // water
   context.fillStyle = '#1b9be0';
   context.fillRect(0, grid, canvas.width, grid * 6);
@@ -365,7 +365,7 @@ document.addEventListener('keydown', function(e) {
   frogger.y = Math.min( Math.max(grid, frogger.y), canvas.height - grid * 2);
 });
 
-// start the game
+// start the rightwaves_game
 requestAnimationFrame(loop);
 </script>
 </body>

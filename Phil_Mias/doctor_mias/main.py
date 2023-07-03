@@ -1,7 +1,6 @@
 from website import create_app
 from flask import send_from_directory
 
-print("\n\n oehfodishefoisheofihsioehfoishefioseh \n\n")
 
 main_app = create_app()
 

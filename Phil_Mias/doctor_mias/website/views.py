@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect
 import random
 from datetime import datetime
 
+
 views = Blueprint("__main__", "views")
 
 
@@ -48,6 +49,16 @@ def game_page():
     return render_template("games.html")
 
 
+@views.route("/games/rightwaves")
+def game_rightwaves():
+    return render_template("games/rightwaves.html")
+
+
+@views.route("/games/2048")
+def game_2048():
+    return render_template("games/2048.html")
+
+
 @views.route("/games/snake")
 def game_snake():
     return render_template("games/snake.html")
@@ -58,6 +69,11 @@ def game_tetris():
     return render_template("games/tetris.html")
 
 
+@views.route("/games/pacman")
+def game_pacman():
+    return render_template("games/pacman.html")
+
+
 @views.route("/games/pong")
 def game_pong():
     return render_template("games/pong.html")
@@ -66,6 +82,11 @@ def game_pong():
 @views.route("/games/breakout")
 def game_breakout():
     return render_template("games/breakout.html")
+
+
+@views.route("/games/drowning")
+def game_drowning():
+    return render_template("games/drowning.html")
 
 
 @views.route("/games/frogger")

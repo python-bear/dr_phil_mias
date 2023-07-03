@@ -34,7 +34,7 @@
 </div>
 <script>
 // since block dude and sokoban share similarities in look and play style
-// we'll reuse a lot of the code from the basic sokoban game
+// we'll reuse a lot of the code from the basic sokoban rightwaves_game
 // @see https://gist.github.com/straker/2fddb507d4bb6bec54ea2fdb022d020c
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');
@@ -71,7 +71,7 @@ let playerPos = { row: 0, col: 0 };  // player position in the 2d array
 let playerFacing = -1;  // the direction the player is facing (1 for right, -1 for left)
 let rAF = null;  // keep track of the animation frame so we can cancel it
 let carryingBlock = false;  // if the player is carrying a block
-let width = 0;  // find the largest row and use that as the game width
+let width = 0;  // find the largest row and use that as the rightwaves_game width
 
 // create a mapping of object types using the sok file format
 const types = {
@@ -96,7 +96,7 @@ const level1 = `
      #####
 `;
 
-// keep track of what is in every cell of the game using a 2d array
+// keep track of what is in every cell of the rightwaves_game using a 2d array
 const cells = [];
 
 // use each line of the level as the row (remove empty lines)
@@ -160,7 +160,7 @@ function move(startPos, endPos) {
   }
 }
 
-// game loop
+// rightwaves_game loop
 function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
@@ -188,7 +188,7 @@ function loop() {
       playerPos.row = row;
       playerPos.col = col;
 
-      // end game
+      // end rightwaves_game
       if (cell === types.goal) {
         cancelAnimationFrame(rAF);
       }
@@ -219,7 +219,7 @@ function loop() {
   context.lineWidth = 2;
 
   // center the view to the player but don't let the view go outside
-  // the game boundaries
+  // the rightwaves_game boundaries
   const startRow = clamp(0, cells.length - 8, playerPos.row - 4);
   const startCol = clamp(0, width - 12, playerPos.col - 6);
 
@@ -333,7 +333,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// start the game
+// start the rightwaves_game
 requestAnimationFrame(loop);
 </script>
 </body>

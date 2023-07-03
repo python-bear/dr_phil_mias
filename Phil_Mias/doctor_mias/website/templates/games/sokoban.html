@@ -54,7 +54,7 @@ wallCtx.fillRect(44, 43, 20, 20);
 let playerDir = { row: 0, col: 0 };
 let playerPos = { row: 0, col: 0 };  // player position in the 2d array
 let rAF = null;  // keep track of the animation frame so we can cancel it
-let width = 0;  // find the largest row and use that as the game width
+let width = 0;  // find the largest row and use that as the rightwaves_game width
 
 // create a mapping of object types using the sok file format
 // @see http://www.sokobano.de/wiki/index.php?title=Level_format
@@ -81,7 +81,7 @@ const level1 = `
 ########
 `;
 
-// keep track of what is in every cell of the game using a 2d array
+// keep track of what is in every cell of the rightwaves_game using a 2d array
 const cells = [];
 
 // use each line of the level as the row (remove empty lines)
@@ -163,7 +163,7 @@ function showWin() {
   context.fillText('YOU WIN!', canvas.width / 2, canvas.height / 2);
 }
 
-// game loop
+// rightwaves_game loop
 function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
@@ -304,7 +304,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// start the game
+// start the rightwaves_game
 requestAnimationFrame(loop);
 </script>
 </body>

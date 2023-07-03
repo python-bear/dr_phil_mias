@@ -76,7 +76,7 @@ const types = {
 // keep track of all entities
 let entities = [];
 
-// keep track of what is in every cell of the game using a 2d array. the
+// keep track of what is in every cell of the rightwaves_game using a 2d array. the
 // template is used to note where walls are and where soft walls cannot spawn.
 // '▉' represents a wall
 // 'x' represents a cell that cannot have a soft wall (player start zone)
@@ -313,7 +313,7 @@ const player = {
   }
 }
 
-// game loop
+// rightwaves_game loop
 let last;
 let dt;
 function loop(timestamp) {
@@ -396,7 +396,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// start the game
+// start the rightwaves_game
 generateLevel();
 requestAnimationFrame(loop);
 </script>

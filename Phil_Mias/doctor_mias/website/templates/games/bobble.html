@@ -57,7 +57,7 @@ const colors = Object.values(colorMap);
 // use a 1px gap between each bubble
 const bubbleGap = 1;
 
-// the size of the outer walls for the game
+// the size of the outer walls for the rightwaves_game
 const wallSize = 4;
 const bubbles = [];
 let particles = [];
@@ -308,7 +308,7 @@ function handleCollision(bubble) {
   dropFloatingBubbles();
 }
 
-// game loop
+// rightwaves_game loop
 function loop() {
   requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
@@ -451,7 +451,7 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-// start the game
+// start the rightwaves_game
 requestAnimationFrame(loop);
 </script>
 </body>
