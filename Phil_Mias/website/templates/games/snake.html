@@ -1,0 +1,14 @@
+<!-- snake.html -->
+{% extends "base.html" %}
+
+{% block title %}
+    Dr. Mias's Snake Game
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Dr. Mias's Games: Snake</h1>
+    </div>
+    <canvas id="gameCanvas" width="720" height="600"></canvas>
+    <script type="text/javascript" src="{{ url_for('static', filename='java/snake.js') }}"></script>
+{% endblock %}

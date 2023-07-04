@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}
+    Dr. Mias's Chatroom
+{% endblock %}
+
+
+{% block style %}
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #messageBox {
+        height: calc(100% - 120px); /* Adjusted to accommodate the new input fields */
+        overflow-y: scroll;
+    }
+
+    #inputContainer {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    #messageInput {
+        flex: 1;
+    }
+
+    #usernameInput, #fileInput {
+        width: 200px; /* Adjust the size as needed */
+    }
+
+    .timestamp {
+        font-size: 12px;
+        color: gray;
+    }
+
+    .welcome-message {
+        font-size: 18px;
+    }
+{% endblock %}
+
+{% block header %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div id="messageBox"></div>
+    <div id="inputContainer">
+        <div>
+            <input type="text" id="messageInput" placeholder="Type your message">
+            <input type="text" id="usernameInput" maxlength="15" placeholder="Username">
+            <button id="sendButton">Send</button>
+        </div>
+        <div>
+            <input type="file" id="fileInput">
+            <button id="sendFileButton">Send File</button>
+        </div>
+    </div>
+
+    <script>
+        var socket = io.connect();
+        var messageBox = document.getElementById('messageBox');
+        var messageInput = document.getElementById('messageInput');
+        var usernameInput = document.getElementById('usernameInput');
+        var fileInput = document.getElementById('fileInput');
+        var sendButton = document.getElementById('sendButton');
+        var sendFileButton = document.getElementById('sendFileButton');
+
+        socket.on('connect', function() {
+            messageBox.innerHTML += '<p class="welcome-message"><em>Connected to the chatroom!</em></p>';
+        });
+
+        socket.on('message', function(data) {
+            var timestamp = new Date().toLocaleTimeString();
+            var message = data.message;
+            var username = data.username;
+            var isFile = data.isFile;
+            if (isFile) {
+                var fileName = message.substring(message.indexOf("[") + 1, message.indexOf("]"));
+                var fileURL = message.substring(message.indexOf("(") + 1, message.indexOf(")"));
+                messageBox.innerHTML += '<p><span class="timestamp">' + timestamp + '</span> <strong>' + username + ':</strong> <a href="' + fileURL + '" target="_blank">' + fileName + '</a></p>';
+            } else {
+                messageBox.innerHTML += '<p><span class="timestamp">' + timestamp + '</span> <strong>' + username + ':</strong> ' + message + '</p>';
+            }
+            messageBox.scrollTop = messageBox.scrollHeight;
+        });
+
+        function sendMessage() {
+            var message = messageInput.value;
+            var username = usernameInput.value.trim().slice(0, 15);
+            socket.emit('message', { username: username, message: message, isFile: false });
+            messageInput.value = '';
+        }
+
+        function sendFile() {
+            var file = fileInput.files[0];
+            if (file) {
+                var fileSize = file.size;
+                if (fileSize <= 716800) { // Limit file size to 1MB (1MB = 1048576 bytes)
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var fileData = event.target.result;
+                        var fileName = file.name;
+                        socket.emit('message', { username: usernameInput.value.trim().slice(0, 15), message: '[' + fileName + '](' + fileData + ')', isFile: true });
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('File size exceeds the limit of 1MB.');
+                }
+            }
+            fileInput.value = '';
+        }
+
+        sendButton.onclick = sendMessage;
+        sendFileButton.onclick = sendFile;
+
+        messageInput.addEventListener('keydown', function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+{% endblock %}
