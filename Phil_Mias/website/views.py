@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect
 import random
 from datetime import datetime
+import requests
 
 
 views = Blueprint("__main__", "views")
@@ -13,6 +14,16 @@ def generate_random_int(low, high):
 def get_current_time():
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return current_time
+
+
+def get_chuck_norris_joke():
+    url = 'https://api.chucknorris.io/jokes/random'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        joke = data['value']
+        return joke
 
 
 @views.route("/home")
@@ -37,6 +48,13 @@ def yo_mama_joke():
         joke = jokes[int(joke_number) - 1]
 
     return render_template("yo_mama.html", joke=joke)
+
+
+@views.route("/chuck_norris")
+def chuck_norris():
+    joke = get_chuck_norris_joke()
+
+    return render_template("chuck_norris.html", joke=joke)
 
 
 @views.route("/games")

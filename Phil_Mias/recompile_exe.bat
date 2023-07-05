@@ -1,6 +1,6 @@
 @echo off
 
-pyinstaller --onefile --console --add-data "website;website" --hidden-import flask --icon "website/static/imgs/favicon.ico" app.py
+pyinstaller --console --onefile --ascii --add-data "website;website" --icon "website/static/imgs/favicon.ico" --hidden-import flask app.py
 
 pause
 exit

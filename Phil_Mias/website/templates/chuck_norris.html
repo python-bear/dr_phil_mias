@@ -1,0 +1,14 @@
+<!-- chuck_norris.html -->
+{% extends "base.html" %}
+
+{% block title %}
+    Dr. Mias's Opinion On Chuck Norris
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Dr. Mias's Expert Opinion On Chuck Norris</h1>
+        <img src="/website/static/imgs/chuck_norris.jpeg" alt="Chuck Norris" style="display: block; margin: 0 auto;">
+        <p style="text-align: center; font-weight: bold;">{{ joke }}</p>
+    </div>
+{% endblock %}

@@ -5,7 +5,6 @@
     Dr. Mias's Chatroom
 {% endblock %}
 
-
 {% block style %}
     html, body {
         height: 100%;
@@ -68,6 +67,7 @@
         var fileInput = document.getElementById('fileInput');
         var sendButton = document.getElementById('sendButton');
         var sendFileButton = document.getElementById('sendFileButton');
+        var userColorMap = {}; // Map to store user color
 
         socket.on('connect', function() {
             messageBox.innerHTML += '<p class="welcome-message"><em>Connected to the chatroom!</em></p>';
@@ -78,12 +78,40 @@
             var message = data.message;
             var username = data.username;
             var isFile = data.isFile;
+
+            var color = userColorMap[username]; // Retrieve color for the user
+
             if (isFile) {
                 var fileName = message.substring(message.indexOf("[") + 1, message.indexOf("]"));
                 var fileURL = message.substring(message.indexOf("(") + 1, message.indexOf(")"));
-                messageBox.innerHTML += '<p><span class="timestamp">' + timestamp + '</span> <strong>' + username + ':</strong> <a href="' + fileURL + '" target="_blank">' + fileName + '</a></p>';
+
+                // Apply different brightness to the color based on whether it's the user's own message or others' messages
+                var ownColorBrightness = 100;
+                var othersColorBrightness = 70;
+
+                var colorStyle = 'color: ' + color + ';';
+
+                if (username === usernameInput.value.trim().slice(0, 15)) {
+                    colorStyle = 'color: ' + color + '; filter: brightness(' + ownColorBrightness + '%);';
+                } else {
+                    colorStyle = 'color: ' + color + '; filter: brightness(' + othersColorBrightness + '%);';
+                }
+
+                messageBox.innerHTML += '<p><span class="timestamp">' + timestamp + '</span> <strong style="' + colorStyle + '">' + username + ':</strong> <a href="' + fileURL + '" target="_blank">' + fileName + '</a></p>';
             } else {
-                messageBox.innerHTML += '<p><span class="timestamp">' + timestamp + '</span> <strong>' + username + ':</strong> ' + message + '</p>';
+                // Apply different brightness to the color based on whether it's the user's own message or others' messages
+                var ownColorBrightness = 100;
+                var othersColorBrightness = 70;
+
+                var colorStyle = 'color: ' + color + ';';
+
+                if (username === usernameInput.value.trim().slice(0, 15)) {
+                    colorStyle = 'color: ' + color + '; filter: brightness(' + ownColorBrightness + '%);';
+                } else {
+                    colorStyle = 'color: ' + color + '; filter: brightness(' + othersColorBrightness + '%);';
+                }
+
+                messageBox.innerHTML += '<p><span class="timestamp">' + timestamp + '</span> <strong style="' + colorStyle + '">' + username + ':</strong> ' + message + '</p>';
             }
             messageBox.scrollTop = messageBox.scrollHeight;
         });
@@ -91,6 +119,12 @@
         function sendMessage() {
             var message = messageInput.value;
             var username = usernameInput.value.trim().slice(0, 15);
+
+            // Assign a color to the user if not already assigned
+            if (!userColorMap[username]) {
+                userColorMap[username] = generateRandomColor();
+            }
+
             socket.emit('message', { username: username, message: message, isFile: false });
             messageInput.value = '';
         }
@@ -104,11 +138,17 @@
                     reader.onload = function(event) {
                         var fileData = event.target.result;
                         var fileName = file.name;
+
+                        // Assign a color to the user if not already assigned
+                        if (!userColorMap[usernameInput.value]) {
+                            userColorMap[usernameInput.value] = generateRandomColor();
+                        }
+
                         socket.emit('message', { username: usernameInput.value.trim().slice(0, 15), message: '[' + fileName + '](' + fileData + ')', isFile: true });
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    alert('File size exceeds the limit of 1MB.');
+                    alert('File size exceeds the limit of 700kb.');
                 }
             }
             fileInput.value = '';
@@ -123,5 +163,15 @@
                 sendMessage();
             }
         });
+
+        // Generate a random color for each user
+        function generateRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
     </script>
 {% endblock %}
